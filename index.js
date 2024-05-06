@@ -1,16 +1,25 @@
-function search(nums, target) {
-  let left = 0;
-  let right = nums.length - 1;
-  while (left <= right) {
-    const mid = Math.floor((left + right) / 2);
-    if (nums[mid] === target) return mid;
-    if (nums[left] <= nums[mid]) {
-      if (nums[left] <= target && target < nums[mid]) right = mid - 1;
-      else left = mid + 1;
-    } else {
-      if (nums[mid] < target && target <= nums[right]) left = mid + 1;
-      else right = mid - 1;
+function numIslands(grid) {
+  if (!grid || grid.length === 0) return 0;
+  const m = grid.length;
+  const n = grid[0].length;
+  let islands = 0;
+  for (let i = 0; i < m; i++) {
+    for (let j = 0; j < n; j++) {
+      if (grid[i][j] === "1") {
+        islands++;
+        dfs(grid, i, j);
+      }
     }
   }
-  return -1;
+  return islands;
+}
+function dfs(grid, i, j) {
+  const m = grid.length;
+  const n = grid[0].length;
+  if (i < 0 || j < 0 || i >= m || j >= n || grid[i][j] === "0") return;
+  grid[i][j] = "0";
+  dfs(grid, i + 1, j);
+  dfs(grid, i - 1, j);
+  dfs(grid, i, j + 1);
+  dfs(grid, i, j - 1);
 }
